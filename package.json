@@ -1,0 +1,29 @@
+{
+  "name": "hsmapi",
+  "version": "0.0.1",
+  "description": "HSMApi wrapper.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup"
+  },
+  "keywords": [
+    "api",
+    "hsm",
+    "discord.js",
+    "fun"
+  ],
+  "homepage": "https://api.hsmsoftware.com",
+  "author": "erokate",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "dotenv": "^16.4.4",
+    "tsup": "^8.0.2",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "axios": "^1.6.7"
+  }
+}
