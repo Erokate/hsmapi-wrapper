@@ -15,6 +15,10 @@
     "fun"
   ],
   "homepage": "https://api.hsmsoftware.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Erokate/hsmapi-wrapper.git"
+  },
   "author": "erokate",
   "license": "MIT",
   "devDependencies": {
