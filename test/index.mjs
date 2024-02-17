@@ -13,7 +13,7 @@ import fs from "fs";
 async function randomHusam() {
     const hsm = await husam()
     // console.log(hsm);
-    return hsm
+    console.log(hsm);
 }
 
 async function morse() {
@@ -37,7 +37,7 @@ async function thoughts() {
 }
 
 async function mocked() {
-    const text = await mock()
+    const text = await mock('HSMApi')
     console.log(text);
 }
 
@@ -51,13 +51,13 @@ async function strucked() {
     console.log(text);
 }
 
-morse()
-mocked()
-script()
-strucked()
-facts()
-thoughts()
-// randomHusam()
+// morse()
+// mocked()
+// script()
+// strucked()
+// facts()
+// thoughts()
+randomHusam()
 // drakeMeme().then(meme => {
 //     const buffer = Buffer.from(meme)
 //     fs.writeFile('./test/assets/drake.jpeg', buffer, (err) => {

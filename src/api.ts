@@ -37,10 +37,9 @@ async function req({ cat, endpoint, params, config }: {
 export async function husam(): Promise<AxiosResponse<ArrayBuffer>> {
     const res = await req({ 
         cat: `random`, 
-        endpoint: `husam`, 
-        config: {responseType: 'arraybuffer'} 
+        endpoint: `husam`
     })
-    return res.data
+    return res.data.husam
 }
 
 /**
