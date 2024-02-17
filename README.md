@@ -54,14 +54,10 @@ const { husam } = require('hsmapi')
 // ...
 const husamPicture = await husam()
 
-const file = new AttachmentBuilder(husamPicture, {
-    name: 'husam.jpg'
-})
-
 await interaction.reply({ embeds: [
     new EmbedBuilder()
     .setColor('#029ffa')
-    .setImage('attachment://husam.jpg')
+    .setImage(husamPicture)
     .setTimestamp(Date.now());
 ], files: [file] })
 ```
@@ -72,7 +68,7 @@ await interaction.reply({ embeds: [
 
 | Function | Description                |
 | :-------- | :------------------------- |
-| husam() | Gives random husam image. |
+| husam() | Gives random husam image url. |
 | birdFacts() | Gives random facts about birds. (Turkish) |
 | showerThoughts() | Gives random shower thoughts (Turkish) |
 

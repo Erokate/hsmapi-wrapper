@@ -25,7 +25,7 @@ async function req({ cat, endpoint, params, config }: {
 // --Random
 
 /**
- * Random husam pictures. (Husam is a bird, Instagram: kushusam) 
+ * Random husam picture urls. (Husam is a bird, Instagram: kushusam) 
  * @returns Picture of husam
  * 
  * ```ts
@@ -34,7 +34,7 @@ async function req({ cat, endpoint, params, config }: {
  * ```
  * see {@link https://api.hsmsoftware.com/v1/random/husam | HSMApi Random Husam}
  */
-export async function husam(): Promise<AxiosResponse<ArrayBuffer>> {
+export async function husam(): Promise<AxiosResponse<string>> {
     const res = await req({ 
         cat: `random`, 
         endpoint: `husam`
