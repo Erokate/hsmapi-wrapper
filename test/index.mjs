@@ -6,13 +6,16 @@ import {
     mock,
     showerThoughts,
     superScript,
-    struck
+    struck,
+    counter
 } from "../dist/index.mjs";
 import fs from "fs";
 
-async function randomHusam() {
-    const hsm = await husam()
-    // console.log(hsm);
+async function randomHusam(bool) {
+    const hsm = await husam(bool)
+    if(bool === true) {
+        return hsm
+    }
     console.log(hsm);
 }
 
@@ -51,16 +54,28 @@ async function strucked() {
     console.log(text);
 }
 
+async function Counter(e) {
+    const text = await counter(e)
+    console.log(text);
+}
+
 // morse()
 // mocked()
 // script()
 // strucked()
 // facts()
 // thoughts()
-randomHusam()
+// randomHusam() // URL
+// randomHusam(true).then(meme => {
+//     const buffer = Buffer.from(meme)
+//     fs.writeFile('./test/assets/husam.jpeg', buffer, (err) => {
+//         if(!err) console.log(`BAŞARILI`);
+//     })
+// }) // Buffer
 // drakeMeme().then(meme => {
 //     const buffer = Buffer.from(meme)
 //     fs.writeFile('./test/assets/drake.jpeg', buffer, (err) => {
 //         if(!err) console.log(`BAŞARILI`);
 //     })
 // })
+Counter('erokate')

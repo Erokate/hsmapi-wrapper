@@ -26,7 +26,7 @@ async function req({ cat, endpoint, params, config }: {
 
 /**
  * Random husam picture urls. (Husam is a bird, Instagram: kushusam) 
- * @returns Picture of husam
+ * @returns Picture of husam or url to picture
  * 
  * ```ts
  * // Usage:
@@ -34,12 +34,25 @@ async function req({ cat, endpoint, params, config }: {
  * ```
  * see {@link https://api.hsmsoftware.com/v1/random/husam | HSMApi Random Husam}
  */
-export async function husam(): Promise<AxiosResponse<string>> {
-    const res = await req({ 
-        cat: `random`, 
-        endpoint: `husam`
-    })
-    return res.data.husam
+export async function husam(raw: boolean): Promise<AxiosResponse<string> | AxiosResponse<ArrayBufferConstructor>> {
+    if(raw === true) {
+        const res = await req({ 
+            cat: `random`, 
+            endpoint: `husam`,
+            params: {
+                raw: String(Number(raw))
+            },
+            config: { responseType: 'arraybuffer' }
+        })
+        
+        return res.data
+    } else {
+        const res = await req({ 
+            cat: `random`, 
+            endpoint: `husam`
+        })
+        return res.data.husam
+    }
 }
 
 /**
@@ -187,4 +200,23 @@ export async function drake(text1: string, text2: string): Promise<AxiosResponse
         config: {responseType: 'arraybuffer'}
     })
     return res.data
+}
+
+// --Utility
+/**
+ * The counter with the entered name increases by 1 each time it is run.
+ * @returns count
+ * 
+ * ```ts
+ * // Usage:
+ * const count = await counter('HSM');
+ * ```
+ * see {@link https://api.hsmsoftware.com/v1/count/HSM | HSMApi Counter}
+ */
+export async function counter(text: string): Promise<AxiosResponse<number>> {
+    const res = await req({ 
+        cat: `counter`, 
+        endpoint: `${text}`, 
+    })
+    return res.data.count
 }

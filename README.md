@@ -1,4 +1,4 @@
-# HSMApi Wrapper
+# HSMApi Wrapper <!-- omit from toc -->
 
 A HSMApi wrapper for node.js
 <div  align="center">
@@ -15,6 +15,23 @@ A HSMApi wrapper for node.js
 
 ## Installation
 `npm install hsmapi`
+
+- [Installation](#installation)
+- [Usage/Examples](#usageexamples)
+  - [Normal usage example:](#normal-usage-example)
+  - [Discord, random text example:](#discord-random-text-example)
+  - [Discord, text example:](#discord-text-example)
+  - [Discord, image example:](#discord-image-example)
+    - [With image URL:](#with-image-url)
+    - [With ArrayBuffer:](#with-arraybuffer)
+  - [Discord, Counter usage example:](#discord-counter-usage-example)
+- [Functions](#functions)
+  - [Random](#random)
+  - [Image](#image)
+  - [Types](#types)
+  - [Utility](#utility)
+- [Support and Feedback](#support-and-feedback)
+
 
 ## Usage/Examples
 
@@ -48,6 +65,7 @@ message.channel.send(morse) // ... --- ...
 ```
 
 ### Discord, image example:
+#### With image URL:
 ```javascript
 const discord = require('discord.js')
 const { husam } = require('hsmapi')
@@ -61,33 +79,59 @@ await interaction.reply({ embeds: [
     .setTimestamp(Date.now());
 ], files: [file] })
 ```
+#### With ArrayBuffer:
+```javascript
+const husamPicture = await husam(true)
+
+const file = new AttachmentBuilder(husamPicture, {
+    name: 'husam.jpg'
+})
+
+await interaction.reply({ embeds: [
+    new EmbedBuilder()
+    .setColor('#029ffa')
+    .setImage('attachment://husam.jpg')
+    .setTimestamp(Date.now());
+], files: [file] })
+```
+
+### Discord, Counter usage example:
+```javascript
+// For example, in the InteractionCreate event:
+//...
+const count = await counter('yourAppName')
+console.log(`Usage Counter: Command used ${count} times!!`)
+```
 
 ## Functions
 
 ### Random
 
-| Function | Description                |
-| :-------- | :------------------------- |
-| husam() | Gives random husam image url. |
-| birdFacts() | Gives random facts about birds. (Turkish) |
-| showerThoughts() | Gives random shower thoughts (Turkish) |
+| Function         | Description                               |
+| :--------------- | :---------------------------------------- |
+| husam()          | Gives random husam image url.             |
+| husam(true)      | Gives random husam image arraybuffer.     |
+| birdFacts()      | Gives random facts about birds. (Turkish) |
+| showerThoughts() | Gives random shower thoughts (Turkish)    |
 
 ### Image
-| Function | Description                |
-| :-------- | :------------------------- |
+| Function                | Description               |
+| :---------------------- | :------------------------ |
 | drake('text1', 'text2') | Make your own Drake Meme. |
 
-### Image
-| Function | Description                |
-| :-------- | :------------------------- |
-| morseCode('text') | Convert your text to morse code. |
-| mock('text') | Write the text mockingly. |
+### Types
+| Function            | Description                             |
+| :------------------ | :-------------------------------------- |
+| morseCode('text')   | Convert your text to morse code.        |
+| mock('text')        | Write the text mockingly.               |
 | superScript('text') | Convert your text to super script text. |
-| struck('text') | Make your text struck. |
+| struck('text')      | Make your text struck.                  |
 
+### Utility
+| Function        | Description                                                           |
+| :-------------- | :-------------------------------------------------------------------- |
+| counter('name') | The counter with the entered name increases by 1 each time it is run. |
 
 ## Support and Feedback
 
 If you need support or feedback, please join our [discord server](https://hsmsoftware.com/birdheaven).
-
-  
