@@ -6,7 +6,7 @@ A HSMApi wrapper for node.js
 	<div>
 		<a href="https://www.npmjs.com/package/hsmapi"><img src="https://img.shields.io/npm/dt/hsmapi?style=for-the-badge&logo=npm" alt="NPM Downloads" /></a>
 		<a href="https://www.npmjs.com/package/hsmapi"><img src="https://img.shields.io/npm/v/hsmapi?style=for-the-badge&logo=npm" alt="NPM Version" /></a>
-		<a href="https://api.hsmsoftware.com/v1/"><img src="https://img.shields.io/uptimerobot/status/m796377643-4c5e3892654c0f6ddb39c463?up_message=online&style=for-the-badge&label=API%20STATUS" /></a>
+		<a href="https://api.hsmsoftware.com/v1/"><img src="https://img.shields.io/website?url=https%3A%2F%2Fapi.hsmsoftware.com%2Fv1%2F&style=for-the-badge&label=API%20STATUS&link=https%3A%2F%2Fapi.hsmsoftware.com%2Fv1%2F" /></a>
 	</div>
 	<div>
 		<a href="https://www.npmjs.com/package/hsmapi"><img src="https://nodei.co/npm/hsmapi.png?downloads=true" alt="NPM Banner"></a>
@@ -24,12 +24,14 @@ A HSMApi wrapper for node.js
   - [Discord, image example:](#discord-image-example)
     - [With image URL:](#with-image-url)
     - [With ArrayBuffer:](#with-arraybuffer)
-  - [Discord, Counter usage example:](#discord-counter-usage-example)
+  - [Counter usage example:](#counter-usage-example)
+    - [Discord, string response](#discord-string-response)
+    - [Discord, ArrayBuffer response:](#discord-arraybuffer-response)
 - [Functions](#functions)
   - [Random](#random)
   - [Image](#image)
   - [Types](#types)
-  - [Utility](#utility)
+  - [Counter](#counter)
 - [Support and Feedback](#support-and-feedback)
 
 
@@ -95,12 +97,31 @@ await interaction.reply({ embeds: [
 ], files: [file] })
 ```
 
-### Discord, Counter usage example:
+### Counter usage example:
+#### Discord, string response
 ```javascript
 // For example, in the InteractionCreate event:
 //...
 const count = await counter('yourAppName')
 console.log(`Usage Counter: Command used ${count} times!!`)
+```
+#### Discord, ArrayBuffer response:
+```javascript
+const discord = require('discord.js')
+const { counter } = require('hsmapi')
+//...
+const count = await counter('yourAppName', { theme: 'moebooru' })
+
+const file = new AttachmentBuilder(count, {
+    name: 'counter.png'
+})
+
+await interaction.reply({ embeds: [
+    new EmbedBuilder()
+    .setColor('#029ffa')
+    .setImage('attachment://counter.png')
+    .setTimestamp(Date.now());
+], files: [file] })
 ```
 
 ## Functions
@@ -109,28 +130,31 @@ console.log(`Usage Counter: Command used ${count} times!!`)
 
 | Function         | Description                               |
 | :--------------- | :---------------------------------------- |
-| husam()          | Gives random husam image url.             |
-| husam(true)      | Gives random husam image arraybuffer.     |
-| birdFacts()      | Gives random facts about birds. (Turkish) |
-| showerThoughts() | Gives random shower thoughts (Turkish)    |
+| `husam()`        | Gives random husam image url.             |
+| `husam(true)`    | Gives random husam image arraybuffer.     |
+| `birdFacts()`    | Gives random facts about birds. (Turkish) |
+| `showerThoughts()`| Gives random shower thoughts (Turkish)   |
 
 ### Image
 | Function                | Description               |
 | :---------------------- | :------------------------ |
-| drake('text1', 'text2') | Make your own Drake Meme. |
+| `drake('text1', 'text2')` | Make your own Drake Meme. |
 
 ### Types
 | Function            | Description                             |
 | :------------------ | :-------------------------------------- |
-| morseCode('text')   | Convert your text to morse code.        |
-| mock('text')        | Write the text mockingly.               |
-| superScript('text') | Convert your text to super script text. |
-| struck('text')      | Make your text struck.                  |
+| `morseCode('text')` | Convert your text to morse code.        |
+| `mock('text')`      | Write the text mockingly.               |
+| `superScript('text')`| Convert your text to super script text. |
+| `struck('text')`    | Make your text struck.                  |
 
-### Utility
+### Counter
 | Function        | Description                                                           |
 | :-------------- | :-------------------------------------------------------------------- |
-| counter('name') | The counter with the entered name increases by 1 each time it is run. |
+| `counter('name')` | The counter with the entered name increases by 1 each time it is run. |
+| `counter('name', { theme: 'theme name' })` | The counter with the entered name increases by 1 each time it is run. <br> Available themes: `rule34`, `moebooru`, `gelbooru`, `asoul` <br> **!! Returns SVG** |
+| `counter('name', { theme: 'theme name', buffer: true })` | The counter with the entered name increases by 1 each time it is run. <br> Available themes: `rule34`, `moebooru`, `gelbooru`, `asoul` <br> **!! Returns ArrayBuffer** |
+
 
 ## Support and Feedback
 

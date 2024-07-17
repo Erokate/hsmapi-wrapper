@@ -2,14 +2,20 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { stringify, ParsedUrlQuery } from "querystring";
 
 const apiURL = `https://api.hsmsoftware.com/v1/`
+const counterThemes = [
+    "asoul",
+    "gelbooru",
+    "moebooru",
+    "rule34"
+]
 
-async function req({ cat, endpoint, params, config }: { 
-    cat: string; 
+async function req({ ctg, endpoint, params, config }: { 
+    ctg: string; 
     endpoint: string; 
     params?: ParsedUrlQuery; 
     config?: AxiosRequestConfig<any>;
 }): Promise<AxiosResponse<any>> {
-    let url = `${apiURL}${cat}/${endpoint}`
+    let url = `${apiURL}${ctg}/${endpoint}`
     if(params) {
         for (const [key, val] of Object.entries(params)) {
             if(!val)
@@ -26,18 +32,20 @@ async function req({ cat, endpoint, params, config }: {
 
 /**
  * Random husam picture urls. (Husam is a bird, Instagram: kushusam) 
- * @returns Picture of husam or url to picture
+ * @returns Picture of husam or picture url
  * 
  * ```ts
  * // Usage:
  * const husamPicture = await husam();
+ * // Raw image:
+ * const husamRawImage = await husam(true);
  * ```
  * see {@link https://api.hsmsoftware.com/v1/random/husam | HSMApi Random Husam}
  */
 export async function husam(raw: boolean): Promise<AxiosResponse<string> | AxiosResponse<ArrayBufferConstructor>> {
     if(raw === true) {
         const res = await req({ 
-            cat: `random`, 
+            ctg: `random`, 
             endpoint: `husam`,
             params: {
                 raw: String(Number(raw))
@@ -48,7 +56,7 @@ export async function husam(raw: boolean): Promise<AxiosResponse<string> | Axios
         return res.data
     } else {
         const res = await req({ 
-            cat: `random`, 
+            ctg: `random`, 
             endpoint: `husam`
         })
         return res.data.husam
@@ -67,7 +75,7 @@ export async function husam(raw: boolean): Promise<AxiosResponse<string> | Axios
  */
 export async function birdFacts(): Promise<AxiosResponse<string>> {
     const res = await req({ 
-        cat: `random`, 
+        ctg: `random`, 
         endpoint: `birdfacts`
     })
     return res.data.fact
@@ -85,7 +93,7 @@ export async function birdFacts(): Promise<AxiosResponse<string>> {
  */
 export async function showerThoughts(): Promise<AxiosResponse<string>> {
     const res = await req({ 
-        cat: `random`, 
+        ctg: `random`, 
         endpoint: `shower`
     })
     return res.data.thought
@@ -105,7 +113,7 @@ export async function showerThoughts(): Promise<AxiosResponse<string>> {
  */
 export async function morseCode(text: string): Promise<AxiosResponse<string>> {
     const res = await req({ 
-        cat: `types`, 
+        ctg: `types`, 
         endpoint: `morse`, 
         params: {
             text: text
@@ -126,7 +134,7 @@ export async function morseCode(text: string): Promise<AxiosResponse<string>> {
  */
 export async function mock(text: string): Promise<AxiosResponse<string>> {
     const res = await req({ 
-        cat: `types`, 
+        ctg: `types`, 
         endpoint: `mock`, 
         params: {
             text: text
@@ -147,7 +155,7 @@ export async function mock(text: string): Promise<AxiosResponse<string>> {
  */
 export async function superScript(text: string): Promise<AxiosResponse<string>> {
     const res = await req({ 
-        cat: `types`, 
+        ctg: `types`, 
         endpoint: `super`, 
         params: {
             text: text
@@ -168,7 +176,7 @@ export async function superScript(text: string): Promise<AxiosResponse<string>> 
  */
 export async function struck(text: string): Promise<AxiosResponse<string>> {
     const res = await req({ 
-        cat: `types`, 
+        ctg: `types`, 
         endpoint: `struck`, 
         params: {
             text: text
@@ -191,7 +199,7 @@ export async function struck(text: string): Promise<AxiosResponse<string>> {
  */
 export async function drake(text1: string, text2: string): Promise<AxiosResponse<string>> {
     const res = await req({ 
-        cat: `image`,
+        ctg: `image`,
         endpoint: 'drake', 
         params: {
             text1: text1,
@@ -210,12 +218,32 @@ export async function drake(text1: string, text2: string): Promise<AxiosResponse
  * ```ts
  * // Usage:
  * const count = await counter('HSM');
+ * 
+ * // SVG Response Usage:
+ * const count = await counter('HSM', { theme: 'moebooru' }); // Returns SVG data
+ * 
+ * // ArrayBuffer Response Usage:
+ * const count = await counter('HSM', { theme: 'moebooru', buffer: true }); // Return Buffer
  * ```
  * see {@link https://api.hsmsoftware.com/v1/count/HSM | HSMApi Counter}
  */
-export async function counter(text: string): Promise<AxiosResponse<number>> {
+export async function counter(text: string, image?: { theme: string, buffer?: boolean }): Promise<AxiosResponse<number> | void>{
+    if (image && !image.theme) throw new Error("No theme specified.")
+    
+    if(image && counterThemes.some(t => image.theme.includes(t))) {
+        const res = await req({ 
+            ctg: `counter`, 
+            endpoint: `${text}`, 
+            params:{
+                theme: image.theme
+            },
+            config: image.buffer ? { responseType: 'arraybuffer' } : { responseType: 'document' }
+        })
+        
+        return res.data
+    }
     const res = await req({ 
-        cat: `counter`, 
+        ctg: `counter`, 
         endpoint: `${text}`, 
     })
     return res.data.count

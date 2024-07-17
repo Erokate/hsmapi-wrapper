@@ -54,9 +54,16 @@ async function strucked() {
     console.log(text);
 }
 
-async function Counter(e) {
-    const text = await counter(e)
-    console.log(text);
+/**
+ * 
+ * @param {string} e 
+ * @param {{ themeName: string, buffer?:boolean }?} b
+ * @returns 
+ */
+async function Counter(e, b) {
+    const ct = await counter(e, b);
+    console.log(ct);
+    return ct
 }
 
 // morse()
@@ -66,8 +73,8 @@ async function Counter(e) {
 // facts()
 // thoughts()
 // randomHusam() // URL
-// randomHusam(true).then(meme => {
-//     const buffer = Buffer.from(meme)
+// randomHusam(true).then(hsm => {
+//     const buffer = Buffer.from(hsm)
 //     fs.writeFile('./test/assets/husam.jpeg', buffer, (err) => {
 //         if(!err) console.log(`BAŞARILI`);
 //     })
@@ -78,4 +85,11 @@ async function Counter(e) {
 //         if(!err) console.log(`BAŞARILI`);
 //     })
 // })
-Counter('erokate')
+// Counter('erokami')
+// Counter('erokami', {buffer: false}).then(data => {
+//     console.log(data);
+//      const buffer = Buffer.from(data)
+//      fs.writeFile('./test/assets/ctest.svg', buffer, (err) => {
+//          if(!err) console.log(`BAŞARILI`);
+//      })
+// })
